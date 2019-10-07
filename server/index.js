@@ -40,6 +40,16 @@ app.get('/rainfall', (req, res) => getRainfall()
   }));
 
 app.post('/submitReport', (req, res) => {
+  if (!req.body.location) {
+    createAddress(req.body.report.latLng)
+      .then(() => {
+        res.status(201).send('got ya report...Allen');
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(504).send('something went wrong with your report');
+      });
+  }
   // createAddress(req.body.report.latLng)
   //   .then((returnedAddress) => {
   //     reportData = {
